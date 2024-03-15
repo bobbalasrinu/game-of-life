@@ -1,15 +1,28 @@
-pipeline {
-    agent any
+ipeline
+{
+    agent { label 'OPENJDK-11-MVN'}
     stages {
-        stage('test') {
+        stage('test')
+        {
             steps {
-                sh 'echo hello'
+                echo "myfirst job"
             }
         }
-        stage('learning') {
+        stage ('vcs')
+        {
             steps {
-                git url: 'https://github.com/GitPracticeRepo/game-of-life.git', 
-                    branch: 'master'
+                git 'https://github.com/bobbalasrinu/game-of-life.git'
+            }
+        }
+        stage ('build')
+        {
+            steps {
+                sh 'export PATH="/usr/lib/jvm/java-8-openjdk-amd64/bin:$PATH" && mvn package'
+            }
+        }
+        stage('archive results') {
+            steps {
+                junit '**/surefire-reports/*.xml'
             }
         }
     }
