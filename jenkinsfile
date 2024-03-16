@@ -9,34 +9,14 @@ pipeline
         pollSCM('* * * * *')
      }
     stages {
-        stage('test')
-        {
-            steps {
-                echo "myfirst job"
-            }
-        }
-        stage('test2')
-        {
-            steps {
-                echo "i love u all people"
-            }
-        }
-         stage('test3')
-        {
-            steps {
-                echo "i love u all people AP"
-            }
-        }
-        stage('test4')
-        {
-            steps {
-                echo "i love u all people of telangana"
-            }
-        }
+       
         stage ('vcs')
         {
             steps {
-                git branch: "${params.BRANCH_TO_BUILD}", url:'https://github.com/bobbalasrinu/game-of-life.git'
+                 mail subject: 'Build Started', 
+                  body: 'Build Started', 
+                  to: 'bsrinivas415@gmail.com' 
+                  git branch: "${params.BRANCH_TO_BUILD}", url:'https://github.com/bobbalasrinu/game-of-life.git'
 
             }
         }
@@ -46,10 +26,20 @@ pipeline
                 sh 'export PATH="/usr/lib/jvm/java-8-openjdk-amd64/bin:$PATH" && mvn package'
             }
         }
-         stage('archive results') {
-            steps {
-                junit '**/surefire-reports/*.xml'
-            }
-         }
+          post {
+        always {
+            echo 'Job completed'
+            mail subject: 'Build Completed', 
+                  body: 'Build Completed', 
+                  to: 'qtdevops@gmail.com'
+        }
+        failure {
+            mail subject: 'Build Failed', 
+                  body: 'Build Failed', 
+                  to: 'bsrinivas415@gmail.com' 
+        }
+        success {
+            junit '**/surefire-reports/*.xml'
+        }
     }
 }
