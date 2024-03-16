@@ -15,13 +15,14 @@ pipeline
         stage ('vcs')
         {
             steps {
-                git 'https://github.com/bobbalasrinu/game-of-life.git'
+                git branch: "${params.BRANCH_TO_BUILD}", url:'https://github.com/bobbalasrinu/game-of-life.git'
+
             }
         }
         stage ('build')
         {
             steps {
-                sh 'export PATH="/usr/lib/jvm/java-8-openjdk-amd64/bin:$PATH" && mvn package'
+                sh 'export PATH="/usr/lib/jvm/java-8-openjdk-amd64/bin:$PATH" && mvn $(params.MAVEN_GOAL)'
             }
         }
         stage('archive results') {
