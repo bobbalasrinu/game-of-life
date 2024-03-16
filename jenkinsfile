@@ -34,7 +34,9 @@ pipeline
                 sh 'export PATH="/usr/lib/jvm/java-8-openjdk-amd64/bin:$PATH" && mvn package'
             }
         }
-        
-        
+         stage('archive results') {
+            steps {
+                junit '**/surefire-reports/*.xml'
+            }
     }
 }
