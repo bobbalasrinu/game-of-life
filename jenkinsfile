@@ -26,7 +26,8 @@ pipeline
                 sh 'export PATH="/usr/lib/jvm/java-8-openjdk-amd64/bin:$PATH" && mvn package'
             }
         }
-          post {
+}
+ post {
         always {
             echo 'Job completed'
             mail subject: 'Build Completed', 
@@ -36,11 +37,9 @@ pipeline
         failure {
             mail subject: 'Build Failed', 
                   body: 'Build Failed', 
-                  to: 'bsrinivas415@gmail.com' 
+                  to: 'qtdevops@gmail.com' 
         }
         success {
             junit '**/surefire-reports/*.xml'
         }
-    }
-}
 }
