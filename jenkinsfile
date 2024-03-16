@@ -1,6 +1,6 @@
 pipeline
 {
-    agent { label 'OPENJDK-11-MVN'}
+    agent { label 'OPENJDK-MVN'}
     stages {
         stage('test')
         {
