@@ -21,7 +21,13 @@ pipeline
                 echo "i love u all people"
             }
         }
-        stage('test3')
+         stage('test3')
+        {
+            steps {
+                echo "i love u all people AP"
+            }
+        }
+        stage('test4')
         {
             steps {
                 echo "i love u all people of telangana"
