@@ -28,7 +28,7 @@ pipeline
         stage ('build')
         {
             steps {
-               sh '/usr/share/maven/bin/mvn "${params.MAVEN_GOAL}" '
+               sh 'mvn package'
             }
         }
         stage('archive results') {
