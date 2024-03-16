@@ -38,5 +38,6 @@ pipeline
             steps {
                 junit '**/surefire-reports/*.xml'
             }
+         }
     }
 }
