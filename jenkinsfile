@@ -19,18 +19,13 @@ pipeline
 
             }
         }
-        stage ('path')
-        {
-            steps {
-                sh 'export PATH="/usr/lib/jvm/java-8-openjdk-amd64/bin:$PATH"'
-            }
-        }
         stage ('build')
         {
             steps {
-               sh 'mvn package'
+                sh 'export PATH="/usr/lib/jvm/java-8-openjdk-amd64/bin:$PATH" && mvn package'
             }
         }
+        
         stage('archive results') {
             steps {
                 junit '**/surefire-reports/*.xml'
