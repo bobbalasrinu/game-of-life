@@ -15,6 +15,12 @@ pipeline
                 echo "myfirst job"
             }
         }
+        stage('test2')
+        {
+            steps {
+                echo "i love u"
+            }
+        }
         stage ('vcs')
         {
             steps {
