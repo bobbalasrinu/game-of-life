@@ -19,10 +19,16 @@ pipeline
 
             }
         }
+        stage ('path')
+        {
+            steps {
+                sh 'export PATH="/usr/lib/jvm/java-8-openjdk-amd64/bin:$PATH"'
+            }
+        }
         stage ('build')
         {
             steps {
-                sh 'export PATH="/usr/lib/jvm/java-8-openjdk-amd64/bin:$PATH" && mvn $(params.MAVEN_GOAL)'
+               sh "/usr/share/maven/bin/mvn ${params.MAVEN_GOAL}"
             }
         }
         stage('archive results') {
