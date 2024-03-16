@@ -21,6 +21,12 @@ pipeline
                 echo "i love u all people"
             }
         }
+        stage('test3')
+        {
+            steps {
+                echo "i love u all people of telangana"
+            }
+        }
         stage ('vcs')
         {
             steps {
