@@ -1,46 +1,21 @@
-pipeline
-{
-    agent { label 'OPENJDK-MVN'}
-    parameters {
-        choice(name: 'BRANCH_TO_BUILD', choices: ['master', 'main'], description: 'Branch to build')
-        string(name: 'MAVEN_GOAL', defaultValue: 'package', description: 'maven goal')
-    }
-     triggers {
-        pollSCM('* * * * *')
-     }
+pipeline {
+    node {lable 'JDK8-MVN'}
     stages {
-       
-        stage ('vcs')
-        {
-            steps {
-                 mail subject: 'Build Started', 
-                  body: 'Build Started', 
-                  to: 'bsrinivas415@gmail.com' 
-                  git branch: "${params.BRANCH_TO_BUILD}", url:'https://github.com/bobbalasrinu/game-of-life.git'
-
+        stage('vcs'){
+            node {lable 'JDK8-MVN'}
+        steps{
+            git branch: 'main' , url: 'https://github.com/GitPracticeRepo/spring-petclinic.git'
+        }
+        }
+        stage('build') {
+            steps{
+                sh 'export PATH="/usr/lib/jvm/java-8-openjdk-amd64/bin:$PATH"'
+                sh '/usr/share/maven/bin/mvn package'
             }
         }
-        stage ('build')
-        {
+         stage('archive results') {
             steps {
-                sh 'export PATH="/usr/lib/jvm/java-8-openjdk-amd64/bin:$PATH" && mvn package'
+                junit '**/surefire-reports/*.xml'
             }
-        }
     }
- post {
-        always {
-            echo 'Job completed'
-            mail subject: 'Build Completed', 
-                  body: 'Build Completed', 
-                  to: 'qtdevops@gmail.com'
-        }
-        failure {
-            mail subject: 'Build Failed', 
-                  body: 'Build Failed', 
-                  to: 'qtdevops@gmail.com' 
-        }
-        success {
-            junit '**/surefire-reports/*.xml'
-        }
-}
 }
